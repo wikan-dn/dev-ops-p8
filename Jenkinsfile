@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'jenkins/jenkins'
+            image 'node-14'
         }
     }
     stages {
