@@ -1,28 +1,37 @@
 pipeline {
-    agent {
-        docker {
-            image 'node-14'
-        }
-    }
+    agent any
+
     stages {
-        stage('Clone') {
+        stage('Clone Repository') {
             steps {
                 git 'https://github.com/wikan-dn/dev-ops-p8.git'
             }
         }
-        stage('Install Dependencies') {
+
+        stage('Build') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
+
         stage('Test') {
             steps {
-                sh 'npm test'
+                bat 'npm test'
+            }
+            post {
+                success {
+                    echo 'Tes berhasil!'
+                }
+                failure {
+                    echo 'Tes gagal!'
+                }
             }
         }
+
         stage('Deploy') {
             steps {
-                sh 'node app.js &'
+                bat 'echo "Menjalankan aplikasi..."'
+                bat 'node app.js &'
             }
         }
     }
